@@ -54,7 +54,7 @@ INFO_TEXT = {
 # =========================
 TABLES = {
     "math": {
-        "KR":  "➕ **Matematika:**\n• Kóbeytiw kestesi hám dárejeler. 
+        "KR": "➕ **Matematika:**\n• Kóbeytiw kestesi hám dárejeler.",
         "ru": "➕ **Математика:**\n• Таблица умножения и степени.",
         "en": "➕ **Math:**\n• Multiplication table and powers."
     },
@@ -109,7 +109,7 @@ async def choose_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await query.edit_message_text(INFO_TEXT[lang])
     
-    msg = {"KR": "Endi maǵan esap jiberiń yáki funkciyalardan paydalanıń.", "ru": "Теперь отправьте пример.", "en": "Now send me an example."}
+    msg = {"KR": "Endi maǵan esap jiberiń.", "ru": "Теперь отправьте пример.", "en": "Now send me an example."}
     await query.message.reply_text(msg[lang], reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
