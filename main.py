@@ -14,8 +14,9 @@ from telegram.ext import (
 # =========================
 # BOT SOZLAMALARI
 # =========================
-# Yangi tokenni shu yerga joylashtirdim
-BOT_TOKEN = "8333458827:AAFRRG-ZNYfxmvWpLueaZPFqVKEA4f_cL3A"
+# Yangi tokenni Render dashboard'idagi BOT_TOKEN katagiga yozing.
+# Kod esa uni avtomatik ravishda o'qib oladi.
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # =========================
 # TO'LIQ INFO TEXT
@@ -76,27 +77,30 @@ async def handle_calculation(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "sin": math.sin, "cos": math.cos, "tan": math.tan,
             "sqrt": math.sqrt, "pi": math.pi, "e": math.e, "pow": math.pow
         }
-        # Ko'paytirish belgilari (×, x, *) va bo'lish (÷, /) ni to'g'irlash
         eval_text = text.replace('×', '*').replace('x', '*').replace('÷', '/').replace(',', '.')
         
         result = eval(eval_text, {"__builtins__": None}, safe_dict)
         
         await update.message.reply_text(f"Natija / Результат / Result: {result}")
     except Exception:
-        # Noto'g'ri misol bo'lsa javob bermaydi
         pass
 
 # =========================
 # MAIN
 # =========================
 def main():
+    # Tokenni tekshirish
+    if not BOT_TOKEN:
+        print("XATO: BOT_TOKEN topilmadi. Render Environment Variables bo'limini tekshiring!")
+        return
+
     application = Application.builder().token(BOT_TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(choose_language, pattern="^lang_"))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_calculation))
 
-    print("✅️Bot jumıs basladı")
+    print("✅️ Bot ishga tushdi")
     application.run_polling()
 
 if __name__ == "__main__":
